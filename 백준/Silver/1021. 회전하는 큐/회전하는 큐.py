@@ -1,9 +1,8 @@
 from collections import deque
 
-N, M = map(int,input().split())
-index = list(map(int,input().split()))
+N, M = map(int, input().split())
+index = list(map(int, input().split()))
 data = deque([i for i in range(1,N+1)])
-# data = [1,2,3 ... ,n]
 
 count = 0
 for num in index :
@@ -18,5 +17,4 @@ for num in index :
             else :
                 data.rotate(1)
                 count += 1
-                
 print(count)
