@@ -7,6 +7,5 @@ for i in range(N):
     arr.append(int(input().strip()))
     
 arr.sort()
-
-for i in arr:
-    print(i)
+    
+print(*arr, sep='\n')
