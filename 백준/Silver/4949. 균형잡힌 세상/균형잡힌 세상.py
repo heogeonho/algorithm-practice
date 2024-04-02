@@ -1,29 +1,29 @@
-while True :
-    str_line = input()
+import sys
+input = sys.stdin.readline
+
+while True:
+    str_line = input().rstrip()
     stack = []
     
-    if str_line == "." :
+    if str_line == ".":
         break
-        
-    stack = []
-    result = True
-    
-    for el in str_line:
-        if el == '(' or el =='[':
-            stack.append(el)
-        elif el==')':
-            if len(stack)==0 or stack[-1]=='[':
-                result = False
-                break
-            elif stack[-1] == '(':
+
+    for i in str_line:
+        if i == "(" or i == "[":
+            stack.append(i)
+        elif i == ")":
+            if len(stack) != 0 and stack[-1] == "(":
                 stack.pop()
-        elif el==']':
-            if len(stack)==0 or stack[-1]=='(':
-                result = False
+            else :
+                stack.append(i)
                 break
-            elif stack[-1] == '[':
+        elif i == "]":
+            if len(stack) != 0 and stack[-1] == "[":
                 stack.pop()
-    if len(stack)==0 and result==True:
-        print('yes')
+            else :
+                stack.append(i)
+                break
+    if len(stack) == 0:
+        print("yes")
     else:
-        print('no')
+        print("no")
