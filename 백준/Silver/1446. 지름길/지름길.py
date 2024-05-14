@@ -1,17 +1,18 @@
 import sys
 input = sys.stdin.readline
-n, d = map(int, input().rstrip().split(' '))
+
+N, D = map(int, input().split())
 
 graph = []
-for _ in range(n):
-    graph.append(list(map(int, input().rstrip().split(' '))))
+for i in range(N):
+    graph.append(list(map(int, input().split())))
+    
+dist = [i for i in range(D+1)]
 
-distance = [i for i in range(d+1)]
-
-for i in range(d+1):
-    distance[i] = min(distance[i], distance[i-1]+1)
-    for start, end, dist in graph:
-        if i == start and end <= d and distance[i] + dist < distance[end]:
-            distance[end] = distance[start] + dist
-
-print(distance[d])
+for i in range(D+1):
+    dist[i] = min(dist[i], dist[i-1] + 1)
+    for start, end, distance in graph:
+        if i == start and end <= D and dist[i] + distance < dist[end]:
+            dist[end] = dist[start] + distance
+            
+print(dist[D])
