@@ -2,16 +2,16 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
+	static StringBuilder sb=new StringBuilder();
 	static int N, M;
 	static int[] a;
 	static int[] b;
 	static boolean[] v;
 
 	private static void perm(int cnt) {
-		StringBuilder sb=new StringBuilder();
 		if(cnt==M) {
 			for(int i:b) sb.append(i+" ");
-			System.out.println(sb);
+			sb.append("\n");
 			return;
 		}
 		for(int i=0; i<N; i++) {
@@ -38,7 +38,7 @@ public class Main {
 		v=new boolean[N];
 		perm(0);
 //		System.out.println(Arrays.toString(a));
-		
+		System.out.println(sb.toString());
 		br.close();
 	}
 }
