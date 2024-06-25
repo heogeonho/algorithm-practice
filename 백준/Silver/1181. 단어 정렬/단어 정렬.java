@@ -3,30 +3,29 @@ import java.io.*;
 
 public class Main {
 	public static void main(String[] args) throws Exception{
-		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+    	BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb=new StringBuilder();
 		
 		int N=Integer.parseInt(br.readLine());
-
 		String[] a=new String[N];
 		for(int i=0; i<N; i++) {
-			a[i]=br.readLine().trim();
+			a[i]=br.readLine();
 		}
 
 		Arrays.sort(a, (o1, o2)-> {
-			int compRes= Integer.compare(o1.length(), o2.length());
-			if(compRes==0) {
+			if(o1.length()==o2.length()) {
 				return o1.compareTo(o2);
 			}
-			return compRes;
+			return o1.length()-o2.length();
 		});
-		
+
 		for (int i = 0; i < a.length; i++) {
+			String str = a[i];
 			if(i==0) {
-				sb.append(a[i]).append("\n");				
+				sb.append(str).append("\n");				
 			} else {
-				if(!a[i].equals(a[i-1])) {
-					sb.append(a[i]).append("\n");					
+				if(!str.equals(a[i-1])) {
+					sb.append(str).append("\n");					
 				}
 			}
 		}
