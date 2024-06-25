@@ -1,29 +1,34 @@
 import java.util.*;
 import java.io.*;
 
-public class Main{
+public class Main {
 	public static void main(String[] args) throws Exception{
 		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb=new StringBuilder();
 		
 		int N=Integer.parseInt(br.readLine());
 
-		Set<String> set=new HashSet<>();
+		String[] a=new String[N];
 		for(int i=0; i<N; i++) {
-			set.add(br.readLine());
+			a[i]=br.readLine().trim();
 		}
-		List<String> al=new ArrayList<>(set);
 
-		al.sort((o1, o2)-> {
+		Arrays.sort(a, (o1, o2)-> {
 			int compRes= Integer.compare(o1.length(), o2.length());
 			if(compRes==0) {
 				return o1.compareTo(o2);
 			}
 			return compRes;
 		});
-
-		for (int i = 0; i < al.size(); i++) {
-			sb.append(al.get(i)).append("\n");
+		
+		for (int i = 0; i < a.length; i++) {
+			if(i==0) {
+				sb.append(a[i]).append("\n");				
+			} else {
+				if(!a[i].equals(a[i-1])) {
+					sb.append(a[i]).append("\n");					
+				}
+			}
 		}
 		System.out.println(sb);
 		br.close();
