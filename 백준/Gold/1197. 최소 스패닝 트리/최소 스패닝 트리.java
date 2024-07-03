@@ -11,7 +11,8 @@ public class Main {
 		int E=Integer.parseInt(st.nextToken());
 		
 		List<int[]>[] g=new List[N+1]; for(int i=0; i<=N; i++) g[i]=new ArrayList<>();
-		//i 번 정점에서 j 로~ 비용 c
+		//    정점 i -> 정점 j (비용 c) 
+        //  & 정점 j -> 정점 i (비용 c)
 		for(int k=0; k<E; k++) {
 			st=new StringTokenizer(br.readLine()," ");
 			int i=Integer.parseInt(st.nextToken());
@@ -23,30 +24,29 @@ public class Main {
 			}			
 		}
 		
-		boolean[] v=new boolean[N+1];
-		int[] w=new int[N+1];
-		for(int i=0; i<N; i++) w[i]=Integer.MAX_VALUE/2;
+		boolean[] v=new boolean[N+1]; //방문처리
+		int[] w=new int[N+1];         //각 정점에서 각 정점으로 가는 가중치
+		for(int i=1; i<=N; i++) w[i]=Integer.MAX_VALUE/2;
 		
+        PriorityQueue<int[]> pq=new PriorityQueue<>((o1,o2)->Integer.compare(o1[1],o2[1]));
 		int sum=0, cnt=0;
-		w[0]=0;
-		for(int i=0; i<=N; i++) {
-			int min=Integer.MAX_VALUE;
-			int minVertex=-1;
-			for(int j=0; j<N+1; j++) {
-				if(!v[j] && min>w[j]) { //최소가중치 메모이제이션
-							min=w[j];
-							minVertex=j;		// 몇번 정점이냐도 찾아야 한다.
-				}
-			}
-			//step2
-			v[minVertex]=true;			// 방문 처리
-			sum+=min;					// MST에 누적 시키는~
-			if(cnt++==N) break;		//++은 저기에 넣어야해 아직 간선을 연결한게 아니에여 
-			// 갱신하러 가
-			for(int[] j:g[minVertex]) {
+		w[1]=0;  // 정점 1에서 시작하려고 함
+        pq.offer(new int[] {1,0});
+        while(!pq.isEmpty()) {
+            int[] vw=pq.poll();
+            int min=vw[1];
+            int minVertex=vw[0];
+            if(v[minVertex]) continue;
+
+            v[minVertex]=true;			// 방문 처리
+			sum+=min;					// MST cost sum 누적을 위함
+			if(cnt++==N) break; 
+			// 갱신 과정
+			for(int[] j:g[minVertex]) { // 아까 최소 cost를 가진 정점으로 방문
 				if(!v[j[0]] && w[j[0]]>j[1]) {
-							   w[j[0]]=j[1]; //갱신!
-				}
+							   w[j[0]]=j[1]; // 갱신
+			                   pq.offer(j);
+                }
 			}
 		}
 		System.out.println(sum);
