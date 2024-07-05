@@ -40,11 +40,9 @@ public class Main {
 			}
 			if(minVertex==-1) {
 				break;
-			} else {
-				v[minVertex]=true;				
-				if(minVertex==E) break;
-			}
-
+			} 
+			v[minVertex]=true;				
+		
 			for(int[] j: g[minVertex]) {
 				if(!v[j[0]] && d[j[0]]>min+j[1]) {
 							   d[j[0]]=min+j[1];
