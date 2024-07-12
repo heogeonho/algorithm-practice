@@ -1,6 +1,10 @@
 import java.util.*;
 import java.io.*;
-
+/*
+DP 알고리즘에 대한 이해 첫걸음
+점화식 구하는 방식에 대한 고민 -> 블럭의 길이에 따라 점화식 세우기 접근 등등
+추가적으로 %10007을 해주는 이유와 오버플로우에 대한 고려를 해보는 계기가 된 문제
+ */
 public class Main {
 	public static void main(String[] args) throws Exception {
 		Scanner sc=new Scanner(System.in);
