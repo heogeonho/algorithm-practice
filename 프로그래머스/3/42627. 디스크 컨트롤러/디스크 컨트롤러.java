@@ -1,34 +1,30 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 class Solution {
-        static int solution(int[][] jobs) {
-    	PriorityQueue<int[]> jobsPQ=new PriorityQueue<>((o1, o2) -> Integer.compare(o1[0],o2[0]));
-    	PriorityQueue<int[]> diskPQ=new PriorityQueue<>((o1, o2) -> Integer.compare(o1[1],o2[1]));
-
-    	for(int[] jl: jobs) jobsPQ.offer(jl);
-    	
-        
+    public int solution(int[][] jobs) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
         int answer = 0;
-        int time = 0;
 
-        while(!jobsPQ.isEmpty() || !diskPQ.isEmpty()){
-
-            while(!jobsPQ.isEmpty() && jobsPQ.peek()[0] <= time){
-            	diskPQ.offer(jobsPQ.poll());
-            }
-
-            if(diskPQ.isEmpty()){ 
-                time = jobsPQ.peek()[0];
-            }else{ 
-                int[] j = diskPQ.poll();
-                answer += time + j[1] - j[0];
-                time += j[1];
-            }
-        
+        // 모든 스코빌 지수를 우선순위 큐에 추가
+        for (int sc : scoville) {
+            pq.offer(sc);
         }
 
-        answer /= jobs.length;
+        // 가장 작은 값이 K 이상이 될 때까지 섞기
+        while (pq.size() > 1 && pq.peek() < K) {
+            int current = pq.poll();
+            int next = pq.poll();
+            int sum = current + next * 2;
+            pq.offer(sum);
+            answer++;
+        }
+
+        // 모든 요소가 처리된 후에도 가장 작은 값이 K보다 작으면 -1 반환
+        if (pq.peek() < K) {
+            return -1;
+        }
+
         return answer;
     }
 }
