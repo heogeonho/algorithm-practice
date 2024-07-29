@@ -14,13 +14,13 @@ class Solution {
 		// Stirng 배열에 대한 정렬
 		Arrays.sort(strings, (o1, o2)-> (o2 + o1).compareTo(o1 + o2));
 		
-		String answer="";
 		if(strings[0].equals("0")) return "0";
 		
+        StringBuilder answer=new StringBuilder();
 		for(int i=0; i<len; i++) {
-			answer+=strings[i];
+			answer.append(strings[i]);
 		}
 		
-        return answer;
+        return answer.toString();
     }
 }
