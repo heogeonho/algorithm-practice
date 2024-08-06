@@ -48,7 +48,7 @@ class Solution {
     }
     
     private static boolean isPrime(Integer a) {
-    	if (a < 2) {
+    	if (a < 2) { 
     		return false;
     	}
     	
