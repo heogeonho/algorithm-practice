@@ -1,36 +1,37 @@
-class Solution {
-	static String solution(String number, int k) {
-		int left=0;
-		int right=k;
-		int finalLen=number.length()-k;
+import java.util.*; //StringBuilder sb = new StringBuilder()
 
-		//반복 과정에서
-		//왼쪽 포인트는 찾은 큰수 + 1
-		//오른쪽 포인트는 왼쪽 + k
-		StringBuilder answer = new StringBuilder();
-		while(true) {
-			char max=' ';
-			int maxIdx=0;
-			for(int i=left; i<=right; i++) {
-				if(max<number.charAt(i)) {
-					max = number.charAt(i);
-					maxIdx = i;
-				}
-			}
-			answer.append(number.charAt(maxIdx));
+import java.io.*;
 
-			k=k-(maxIdx-left);
-			left=maxIdx+1;
-			if(k==0) break;
-			if(answer.length()==finalLen) break;
-			right=left+k;
-//			System.out.println("left:"+left+" right:"+right);
-		}
-//		System.out.println("left:"+left);
-		if(answer.length()!=finalLen) {
-			for (int i = left; i < number.length(); i++)
-				answer.append(number.charAt(i));
-		}
-		return answer.toString();
-	}
+class Solution { //숫자 num , 제거할 수 개수 k
+    
+    public String solution(String number, int k) {
+        // String answer = "";
+        ArrayDeque<Character> stack = new ArrayDeque<>();
+        
+        int len=number.length();
+        
+        for(int i=0;i< len;i++){
+            
+            char c = number.charAt(i);
+            while(!stack.isEmpty() && k>0&&stack.peekLast() <c){
+                
+                stack.removeLast();
+                k--;
+            }
+            stack.addLast(c);
+        }
+        while(k>0){
+            
+            stack.removeLast();
+            k--;
+        } 
+        StringBuilder answer =new StringBuilder();
+        for(char c: stack){
+            
+            answer.append(c);
+        }
+        // number에서 k개의 수 제거 ->: 만들 수 있는 가장 큰 숫자를 문자열로 리턴 
+         
+        return answer.toString();
+    }
 }
