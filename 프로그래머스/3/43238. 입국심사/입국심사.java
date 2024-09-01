@@ -1,23 +1,24 @@
 import java.util.*;
+
 class Solution {
-    public long solution(int n, int[] times) {
+    static long solution(int n, int[] times) {
         long answer = 0;
         Arrays.sort(times);
         long left = 0;
-        long right = times[times.length-1] * (long)n; //모든 사람이 가장 느리게 심사받음
-        
-        while(left <= right) {
+        long right = (long)n * times[times.length-1];
+
+        while (left <= right) {
             long mid = (left + right) / 2;
-            long complete = 0;
-            for (int i = 0; i < times.length; i++)
-                complete += mid / times[i];
-            if (complete < n) // 해당 시간에는 모든 사람이 검사받을 수 없다.
+            long comp = 0;
+            for (int time : times)
+                comp += mid / time;
+            if (comp < n)
                 left = mid + 1;
             else {
                 right = mid - 1;
-                answer = mid; // 모두 검사받았으나, 더 최솟값이 있을 수 있다.
+                answer = mid;
             }
-        }  
+        }
         return answer;
     }
 }
