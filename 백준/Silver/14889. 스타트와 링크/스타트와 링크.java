@@ -50,7 +50,6 @@ public class Main {
 
         for (int i = 0; i < N - 1; i++) {
             for (int j = i + 1; j < N; j++) {
-
                 if (v[i] && v[j]) {
                     team_start += map[i][j];
                     team_start += map[j][i];
@@ -62,11 +61,6 @@ public class Main {
         }
         int val = Math.abs(team_start - team_link);
         
-		if (val == 0) {
-			System.out.println(val);
-			System.exit(0);
-		}
         min = Math.min(val, min);
-
     }
 }
