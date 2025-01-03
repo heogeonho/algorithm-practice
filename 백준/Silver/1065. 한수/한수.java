@@ -4,30 +4,26 @@ import java.io.InputStreamReader;
 
 public class Main {
 
-    static int cnt;
-
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
 
-        countHanSu(N);
-        System.out.println(cnt);
+        
+        System.out.println(countHanSu(N));
     }
 
-    static void countHanSu(int N) {
+    static int countHanSu(int N) {
+        int cnt = 0;
         if (N < 100) {
             cnt = N;
         } else {
             cnt = 99;
             for (int i = 100; i <= N; i++) {
-                int a = i / 100;
-                int b = (i / 10) % 10;
-                int c = i % 10;
-
-                if (b - c == a - b) {
+                if (i / 100 + i % 10 == (i % 100 / 10) * 2) {
                     cnt++;
                 }
             }
         }
+        return cnt;
     }
 }
