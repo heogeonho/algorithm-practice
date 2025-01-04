@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
+
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
@@ -17,15 +18,15 @@ public class Main {
             int x = Integer.parseInt(st.nextToken());
             int y = Integer.parseInt(st.nextToken());
             int answer = -1;
-            int k = 0;
-            int cnt = 0;
-            while (k < lcm(M, N)) {
-                k = M * cnt + x;
+            int k = x; // x로 초기화
+
+            while (k <= lcm(M, N)) {
+
                 if ((k - 1) % N + 1 == y) {
                     answer = k;
                     break;
                 }
-                cnt++;
+                k += M; // M씩 증가
             }
             sb.append(answer).append("\n");
         }
@@ -42,7 +43,7 @@ public class Main {
     }
 
     public static int lcm(int a, int b) {
-        return a * (b / gcd(a, b)); // LCM 공식: (a * b) / GCD(a, b)
+        return a / gcd(a, b) * b;
 
     }
 }
