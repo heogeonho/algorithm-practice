@@ -8,19 +8,22 @@ public class Main {
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
-        StringTokenizer st = null;
         int T = Integer.parseInt(br.readLine());
 
         for (int i = 0; i < T; i++) {
-            st = new StringTokenizer(br.readLine());
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            
             int M = Integer.parseInt(st.nextToken());
             int N = Integer.parseInt(st.nextToken());
             int x = Integer.parseInt(st.nextToken());
             int y = Integer.parseInt(st.nextToken());
+            
+            
             int answer = -1;
             int k = x; // x로 초기화
+            int lcm = lcm(M, N);
 
-            while (k <= lcm(M, N)) {
+            while (k <= lcm) {
 
                 if ((k - 1) % N + 1 == y) {
                     answer = k;
@@ -43,7 +46,7 @@ public class Main {
     }
 
     public static int lcm(int a, int b) {
-        return a / gcd(a, b) * b;
+        return a * b / gcd(a, b);
 
     }
 }
