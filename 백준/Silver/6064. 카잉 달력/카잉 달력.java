@@ -15,25 +15,23 @@ public class Main {
             
             int M = Integer.parseInt(st.nextToken());
             int N = Integer.parseInt(st.nextToken());
-            int x = Integer.parseInt(st.nextToken());
-            int y = Integer.parseInt(st.nextToken());
+            int x = Integer.parseInt(st.nextToken()) - 1;
+            int y = Integer.parseInt(st.nextToken()) - 1;
             
-            
-            int answer = -1;
-            int k = x; // x로 초기화
-            int lcm = lcm(M, N);
-
-            while (k <= lcm) {
-
-                if ((k - 1) % N + 1 == y) {
-                    answer = k;
-                    break;
-                }
-                k += M; // M씩 증가
-            }
-            sb.append(answer).append("\n");
+            sb.append(solve(M, N, x, y, M * N / gcd(M, N))).append("\n");
         }
         System.out.println(sb.toString());
+    }
+    
+    public static int solve(int m, int n, int x, int y, int lcm) {
+        int year = x;
+        while (year <= lcm) {
+            if (year % n == y) {
+                return year + 1;
+            }
+            year += m;
+        }
+        return -1;
     }
 
     public static int gcd(int a, int b) {
@@ -43,10 +41,5 @@ public class Main {
             a = temp;
         }
         return a;
-    }
-
-    public static int lcm(int a, int b) {
-        return a * b / gcd(a, b);
-
     }
 }
