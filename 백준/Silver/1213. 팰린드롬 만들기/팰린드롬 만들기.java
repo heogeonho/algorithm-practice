@@ -3,32 +3,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//        StringTokenizer st = new StringTokenizer(br.readLine());
         String input = br.readLine();
-        int len = input.length();
         int[] arr = new int[26];
 
-        for (int i = 0; i < len; i++) {
-            int index = input.charAt(i) - 'A';
-            arr[index]++;
+        // 문자 개수 카운트 & 홀수 개 문자 체크
+        int oddCount = 0, oddIndex = -1;
+        for (char c : input.toCharArray()) {
+            int idx = c - 'A';
+            arr[idx]++;
+            if (arr[idx] % 2 == 1) oddCount++;
+            else oddCount--;
         }
 
-        int oddIndex = -1;
-        int oddCount = 0;
-
-        // 홀수 개수 확인
-        // * 홀수 개수 확인만 하면 되는 이유 -> 짝수 길이일때 홀수가 나오면 무조건 홀수 개수 2개됨
-        for (int i = 0; i < 26; i++) {
-            if (arr[i] % 2 == 1) {
-                oddCount++;
-                oddIndex = i;
-            }
-        }
-
-        // 팰린드롬을 만들 수 없는 경우
         if (oddCount > 1) {
             System.out.println("I'm Sorry Hansoo");
             return;
@@ -49,6 +37,5 @@ public class Main {
 
         // 최종 결과 출력
         System.out.println(firstHalf.toString() + (middleChar != '\0' ? middleChar : "") + firstHalf.reverse().toString());
-        br.close();
     }
 }
