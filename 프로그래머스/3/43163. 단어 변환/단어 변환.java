@@ -1,55 +1,64 @@
-import java.util.*;
+import java.util.ArrayDeque;
+
 class Solution {
-	static ArrayDeque<Integer> dq=new ArrayDeque<>();
-	static boolean[] v;
-	static int[] route;
-	static int solution(String begin, String target, String[] words) {
-		v=new boolean[words.length];
-		route=new int[words.length];
+    static boolean[] isVisited;
+    static int[] dist;
 
-		// target 값이 없으면 무조건 0
-		if(!Arrays.asList(words).contains(target)) {
-			return 0;
-		}
-		// 첫 탐색은 먼저 dq에 넣고 시작 [index]
-		for (int k=0; k<words.length; k++) {
-			if(!v[k] && canConvert(begin, words[k])) {
-				v[k]=true;
-				route[k]=1;
-				if(words[k].equals(target)) {
-					return route[k];
-				}
-				dq.offer(k);
-			}
-		}
-		return bfs(target, words);
-	}
+    static int solution(String begin, String target, String[] words) {
+        if (!contains(words, target)) return 0;
+        return bfs(begin, target, words);
+    }
 
-	static int bfs(String target, String[] words) {
+    public static boolean contains(String[] words, String target) {
+        for (String word : words) {
+            if (word.equals(target)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-		while(!dq.isEmpty()) {
-			int now = dq.poll();
-			for (int k=0; k<words.length; k++) {
-				if(!v[k] && canConvert(words[now], words[k])) {
-					v[k]=true;
-					route[k]=route[now]+1;
-					if(words[k].equals(target)) {
-						return route[k];
-					}
-					dq.offer(k);
-				}
-			}
-		}
-		return 0;
-	}
+    public static boolean isPossibleNext(String from, String to) {
+        int cnt = 0;
+        for (int i = 0; i < from.length(); i++) {
+            if (from.charAt(i) != to.charAt(i)) {
+                cnt++;
+            }
+        }
+        return cnt == 1;
+    }
 
-	static boolean canConvert(String word1, String word2){
-		int diffCnt = 0;
-		for (int i = 0; i<word1.length(); i++){
-			if (word1.charAt(i) != word2.charAt(i)){
-				diffCnt++;
-			}
-		}
-		return diffCnt ==1;
-	}
+    public static int bfs(String begin, String target, String[] words) {
+        ArrayDeque<Integer> q = new ArrayDeque<>();
+        isVisited = new boolean[words.length];
+        dist = new int[words.length];
+
+        for (int i = 0; i < words.length; i++) {
+            if (isPossibleNext(begin, words[i])) {
+                isVisited[i] = true;
+                dist[i] = 1;
+                if (target.equals(words[i])) {
+                    return dist[i];
+                }
+                q.offer(i);
+            }
+        }
+
+        while (!q.isEmpty()) {
+            int idx = q.poll();
+            for (int i = 0; i < words.length; i++) {
+
+                if (isVisited[i]) continue;
+                if (isPossibleNext(words[idx], words[i])) {
+                    isVisited[i] = true;
+                    dist[i] = dist[idx] + 1;
+                    q.offer(i);
+                    if (target.equals(words[i])) {
+                        return dist[i];
+                    }
+                }
+            }
+        }
+        return 0;
+    }
 }
