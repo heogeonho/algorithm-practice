@@ -1,19 +1,6 @@
-/*
-결국 풀이법 본 문제
-투포인터? 이분탐색? 좀더 이해가 필요할 것 같다
-다양한 유형 더 풀어볼 것
- */
+import java.io.*;
+import java.util.*;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
-
-/*
-용액의 특성
-두 용액의 합 0에 가까운 특성값 찾기
-*/
 public class Main {
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -32,21 +19,21 @@ public class Main {
         int start = 0;
         int end = arr.length - 1;
         int min = Integer.MAX_VALUE;
-        while (start < end) {
 
-            int abs = Math.abs(arr[start] + arr[end]);
+        while (start < end) {
+            int sum = arr[start] + arr[end];
+            int abs = Math.abs(sum);
+
             if (abs < min) {
                 min = abs;
                 result[0] = arr[start];
                 result[1] = arr[end];
             }
 
-            if ((arr[start] + arr[end]) > 0) {
+            if (sum > 0) {
                 end--;
-            } else if ((arr[start] + arr[end]) < 0) {
-                start++;
             } else {
-                break;
+                start++;
             }
         }
 
