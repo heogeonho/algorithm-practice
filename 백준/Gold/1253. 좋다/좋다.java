@@ -4,7 +4,8 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 /*
-
+시간 복잡도에 대한 우려가 있었으나
+숫자 범위가 (index 범위) 크지 않아 괜찮았던 문제
  */
 
 public class Main {
@@ -33,10 +34,11 @@ public class Main {
         System.out.println(count);
     }
 
+    // 각 인덱스 타겟마다 좋은 수 인지 판단하는 함수
     static boolean findGood(int idx) {
         int target = arr[idx]; // 우리가 찾고자 하는 좋은 수
-        int start = 0;
-        int end = N - 1;
+        int start = 0; // 시작점
+        int end = N - 1; // 끝점
 
         while (start < end) {
             if (start == idx) {
@@ -60,7 +62,4 @@ public class Main {
         }
         return false;
     }
-
-
 }
-
