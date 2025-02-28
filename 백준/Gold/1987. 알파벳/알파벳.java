@@ -10,7 +10,7 @@ public class Main {
     static final int[] dj = {0, 1, 0, -1};
     static int R, C;
     static char[][] map;
-    static boolean[][] v;
+    static boolean [] visited;
     static int max = Integer.MIN_VALUE;
 
     public static void main(String[] args) throws Exception {
@@ -20,7 +20,7 @@ public class Main {
         R = Integer.parseInt(st.nextToken()); // 세로
         C = Integer.parseInt(st.nextToken()); // 가로
         map = new char[R][C];
-        v = new boolean[R][C];
+        visited = new boolean[27];
 
         for (int i = 0; i < R; i++) {
             String str = br.readLine();
@@ -28,27 +28,20 @@ public class Main {
                 map[i][j] = str.charAt(j);
             }
         }
-        List<Character> history = new ArrayList<>();
-        dfs(0, 0, 1, history);
+       
+        dfs(0, 0, 1);
         System.out.println(max);
     }
 
-    static void dfs(int i, int j, int depth, List<Character> history) {
-
-        v[i][j] = true;
-
+    static void dfs(int i, int j, int depth) {
+        visited[map[i][j]-'A'] = true;
         max = Math.max(max, depth);
-
-        history.add(map[i][j]);
-
         for (int d = 0; d < 4; d++) {
             int ni = i + di[d];
             int nj = j + dj[d];
-            if (0 <= ni && ni < R && 0 <= nj && nj < C && !v[ni][nj] && !history.contains(map[ni][nj])) {
-
-                dfs(ni, nj, depth + 1, history);
-                history.remove(history.size() - 1);
-                v[ni][nj] = false;
+            if (0 <= ni && ni < R && 0 <= nj && nj < C && !visited[map[ni][nj]-'A']) {
+                dfs(ni, nj, depth + 1);
+                visited[map[ni][nj]-'A'] = false;
             }
         }
     }
