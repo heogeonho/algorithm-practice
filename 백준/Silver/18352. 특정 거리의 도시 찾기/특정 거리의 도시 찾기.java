@@ -1,61 +1,70 @@
+import java.io.*;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    static int N, M, K, X;
+    static List<Integer>[] graph;
+    static List<Integer> result = new ArrayList<>();
 
-        // 입력 처리
-        int N = sc.nextInt(); // 도시 개수
-        int M = sc.nextInt(); // 도로 개수
-        int K = sc.nextInt(); // 거리 정보
-        int X = sc.nextInt(); // 시작 도시
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        List<List<Integer>> graph = new ArrayList<>();
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        K = Integer.parseInt(st.nextToken());
+        X = Integer.parseInt(st.nextToken());
+
+        graph = new ArrayList[N + 1];
         for (int i = 0; i <= N; i++) {
-            graph.add(new ArrayList<>());
+            graph[i] = new ArrayList<>();
         }
 
         for (int i = 0; i < M; i++) {
-            int A = sc.nextInt();
-            int B = sc.nextInt();
-            graph.get(A).add(B);
+            st = new StringTokenizer(br.readLine());
+            int A = Integer.parseInt(st.nextToken());
+            int B = Integer.parseInt(st.nextToken());
+            graph[A].add(B);
         }
 
-        int[] distances = new int[N + 1];
-        Arrays.fill(distances, -1);
-        distances[X] = 0; // 시작 도시의 거리는 0
-
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(X);
-
-        // BFS
-        while (!queue.isEmpty()) {
-            int current = queue.poll();
-
-            for (int next : graph.get(current)) {
-                if (distances[next] == -1) { // 아직 방문하지 않은 도시만
-                    distances[next] = distances[current] + 1;
-                    queue.add(next);
-                }
-            }
-        }
-
-        List<Integer> result = new ArrayList<>();
-        for (int i = 1; i <= N; i++) {
-            if (distances[i] == K) {
-                result.add(i);
-            }
-        }
+        bfs(X);
 
         if (result.isEmpty()) {
-            System.out.println(-1);
+            System.out.println("-1");
         } else {
-            Collections.sort(result); // 오름차순 정렬
+            Collections.sort(result);
             for (int city : result) {
                 System.out.println(city);
             }
         }
+    }
 
-        sc.close();
+    static void bfs(int start) {
+        ArrayDeque<int[]> queue = new ArrayDeque<>();
+        boolean[] visited = new boolean[N + 1];
+        
+        // 값 2개 저장해서 dist 활용하기
+        queue.offer(new int[]{start, 0}); 
+        visited[start] = true;
+
+        while (!queue.isEmpty()) {
+            int[] current = queue.poll();
+            int city = current[0];
+            int dist = current[1];
+
+            if (dist == K) {
+                result.add(city);
+            }
+
+            if (dist > K) continue; 
+            // dist > K 더 할 필요 없음
+
+            for (int next : graph[city]) {
+                if (!visited[next]) {
+                    visited[next] = true;
+                    queue.offer(new int[]{next, dist + 1});
+                }
+            }
+        }
     }
 }
