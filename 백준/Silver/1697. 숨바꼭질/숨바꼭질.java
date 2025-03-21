@@ -1,88 +1,49 @@
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-public class Main{
+class Main {
+    static final int MAX_RANGE = 100_001;
+    static boolean[] v = new boolean[MAX_RANGE];
+    static int K, N;
 
-    /*
-    수빈이 위치 N
-    동생 위치 K (목적지)
-
-    수빈이 이동 루트 (단위 1초)
-    case1: X-1, X+1
-    case2: 2*X
-
-    BFS 활용 -> 가장 먼저 K 찾는 루트의 거리 출력
-    큐에 들어가는 것 (위치정보?)
-    방문처리 해줘서 더 큰 수 안들어가도록 처리
-
-    static move = {1,-1,2}
-    static int[] map = int[100000]
-
-    BFS(N)
-
-    BFS(int N) {
-        q
-        q.offer(N)
-        while (!q.isEmpty) {
-            i=q.pull()
-            for(move.length()) {
-                방문x -> 값 처리
-                if k 면 break?
-            }
-        }
-    }
-     */
-    static int len = 100001;
-    static int[] map = new int[len];
-    static boolean[] v = new boolean[len];
-
-    public static void main(String[] args) throws Exception {
+    // 최단 경로 문제라서 bfs 활용
+    // 초반에 별 생각없이 dfs로 풀다가 아차 했던 문제 (dfs는 최단 시간인지 보장하기 어려움)
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int N = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
-
-        System.out.println(bfs(N, K));
+        N = Integer.parseInt(st.nextToken());
+        K = Integer.parseInt(st.nextToken());
+        bfs(N);
     }
 
-    static int bfs(int N, int K) {
-        ArrayDeque<Integer> q = new ArrayDeque<>();
-        v[N] = true;
-        map[N] = 0;
-        q.offer(N);
-        while (!q.isEmpty()) {
-            int i = q.poll();
+    public static void bfs(int start) {
+        ArrayDeque<int[]> q = new ArrayDeque<>();
+        q.offer(new int[]{start, 0});
+        v[start] = true;
 
-            if ((i + 1) <= len - 1 && !v[i + 1]) {
-                v[i + 1] = true;
-                q.offer(i + 1);
-                map[i + 1] = map[i] + 1;
-                if (i + 1 == K) {
-                    return map[i + 1];
-                }
+        while (!q.isEmpty()) {
+            int[] curr = q.poll();
+            int x = curr[0];
+            int depth = curr[1];
+
+            if (x == K)  {
+                System.out.println(depth);
+                return;
             }
-            if ((i - 1) >= 0 && !v[i - 1]) {
-                v[i - 1] = true;
-                map[i - 1] = map[i] + 1;
-                q.offer(i - 1);
-                if (i - 1 == K) {
-                    return map[i - 1];
-                }
+
+            if (x - 1 >= 0 && !v[x - 1]) {
+                v[x - 1] = true;
+                q.offer(new int[]{x - 1, depth + 1});
             }
-            if ((2 * i) <= len - 1 && !v[2 * i]) {
-                v[2 * i] = true;
-                map[2 * i] = map[i] + 1;
-                q.offer(2 * i);
-                if (2 * i == K) {
-                    return map[2 * i];
-                }
+            if (x + 1 < MAX_RANGE && !v[x + 1]) {
+                v[x + 1] = true;
+                q.offer(new int[]{x + 1, depth + 1});
+            }
+            if (x * 2 < MAX_RANGE && !v[x * 2]) {
+                v[x * 2] = true;
+                q.offer(new int[]{x * 2, depth + 1});
             }
         }
-
-        return 0;
     }
 }
