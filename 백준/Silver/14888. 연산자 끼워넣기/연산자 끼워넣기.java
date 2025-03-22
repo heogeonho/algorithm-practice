@@ -1,90 +1,58 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-public class Main {
-	static int MIN=Integer.MAX_VALUE , MAX=Integer.MIN_VALUE;
-	static int N;
-	static int[] number;
-	static ArrayList<String> operator ;
-	static String[] O;
-	static boolean[] v;
-	
-	//연산자의 순열 찾기
-	private static void perm(int cnt) {
-		if(cnt==N-1) {
-			cal();
-			return;
-		}
-		for(int i=0; i<N-1; i++) {
-			if(v[i]) continue;
-			v[i]=true;
-			O[cnt]=operator.get(i);
-			perm(cnt+1);
-			v[i]=false;
-		}
-	}
-	
-	private static void cal() {
-		int result=number[0];
-		//연산자로 계산 진행 후 max, min 업데이트
-		for (int i = 0; i < O.length; i++) {
-			String op = O[i];
-			int value = number[i+1];
-			switch(op) {
-				case "+":
-					result += value;
-					break;
-				case "-":
-					result -= value;
-					break;
-				case "*":
-					result *= value;
-					break;
-				case "/":
-					result /= value;
-					break;
-			}	
-		}
-		MAX=Math.max(result, MAX);
-		MIN=Math.min(result, MIN);
-	}
+class Main {
+    static int len;
+    static int[] nums;     
+    static int[] op = new int[4]; // 매열의 인덱스: 연산 부호, 배열의 값: 연산자 개수
+    static int max = Integer.MIN_VALUE;
+    static int min = Integer.MAX_VALUE;
 
-	public static void main(String[] args) throws Exception{
-		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st=null;
-		
-		N=Integer.parseInt(br.readLine());
-		number=new int[N];
-		
-		st=new StringTokenizer(br.readLine()," ");
-		for (int i = 0; i < N; i++) {
-			number[i]=Integer.parseInt(st.nextToken());
-		}
-//		System.out.println(Arrays.toString(number));
-		
-		//연산자가 저장되는 Array list
-		st=new StringTokenizer(br.readLine()," ");
-		operator =new ArrayList<>();
-		for (int i = 0; i < 4; i++) {
-			int k=Integer.parseInt(st.nextToken());
-			for (int j = 0; j < k; j++) {
-				if(i==0) operator.add("+");
-				else if(i==1) operator.add("-");
-				else if(i==2) operator.add("*");
-				else if(i==3) operator.add("/");
-			}
-		}
-//		System.out.println(operator.toString());
-//		System.out.println(operator.get(2));
-		
-		//연산자 순열 돌리기
-		v=new boolean[N-1];
-		O=new String[N-1];
-		perm(0);
-		
-		//그때마다 계산 결과 돌리기 최소 최대 값 업데이트
-		//끝나고 결과 출력하기
-		System.out.println(MAX);
-		System.out.println(MIN);
-	}
+    // 순조부 풀던게 생각 남. dfs 로 처리해봄
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        len = Integer.parseInt(br.readLine());
+        
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        nums = new int[len];
+        for (int i = 0; i < len; i++) {
+            nums[i] = Integer.parseInt(st.nextToken());
+        }
+
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < 4; i++) {
+            op[i] = Integer.parseInt(st.nextToken());
+        }
+
+        // 전체 돌면서 결과 찾기
+        dfs(1, nums[0]);
+
+        System.out.println(max);
+        System.out.println(min);
+    }
+
+    static void dfs(int idx, int result) {
+        if (idx == len) {
+            max = Math.max(max, result);
+            min = Math.min(min, result);
+            return;
+        }
+
+        // 각 연산자에 맞게 값 업데이트
+        // visit는 필요 x op의 값이 0이면 처리 x
+        for (int i = 0; i < 4; i++) {
+            if (op[i] > 0) {
+                op[i]--;
+
+                switch (i) {
+                    case 0: dfs(idx + 1, result + nums[idx]); break;
+                    case 1: dfs(idx + 1, result - nums[idx]); break;
+                    case 2: dfs(idx + 1, result * nums[idx]); break;
+                    case 3: dfs(idx + 1, result / nums[idx]); break;
+                }
+
+                op[i]++;
+            }
+        }
+    }
 }
