@@ -21,12 +21,8 @@ class Main {
             if(notPrime[i]) continue; 
             
             // 소수 발견 -> 이후 합성수 필터링
-            int cnt = 2;
-            int p = i * cnt;
-            while (p <= N) {
-                notPrime[p] = true;
-                cnt++;
-                p = i * cnt;
+            for (int j = i * i; j <= N; j += i) {
+                notPrime[j] = true;
             }
         }
 
