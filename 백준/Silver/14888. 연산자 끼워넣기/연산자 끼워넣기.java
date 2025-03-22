@@ -31,8 +31,8 @@ class Main {
         System.out.println(min);
     }
 
-    static void dfs(int idx, int result) {
-        if (idx == len) {
+    static void dfs(int cnt, int result) {
+        if (cnt == len) {
             max = Math.max(max, result);
             min = Math.min(min, result);
             return;
@@ -45,10 +45,10 @@ class Main {
                 op[i]--;
 
                 switch (i) {
-                    case 0: dfs(idx + 1, result + nums[idx]); break;
-                    case 1: dfs(idx + 1, result - nums[idx]); break;
-                    case 2: dfs(idx + 1, result * nums[idx]); break;
-                    case 3: dfs(idx + 1, result / nums[idx]); break;
+                    case 0: dfs(cnt + 1, result + nums[cnt]); break;
+                    case 1: dfs(cnt + 1, result - nums[cnt]); break;
+                    case 2: dfs(cnt + 1, result * nums[cnt]); break;
+                    case 3: dfs(cnt + 1, result / nums[cnt]); break;
                 }
 
                 op[i]++;
