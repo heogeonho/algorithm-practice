@@ -1,64 +1,62 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-public class Main {
-	
-	static int Cnt = 0, N, M;
-	static int[][] map;
-	static boolean[][] v;
-	static int[] di = {-1,0,1,0};
-	static int[] dj = {0,1,0,-1};
-	
-	static void dfs(int i, int j) {
-		for(int a=0; a<4; a++) {
-			int ni=i+di[a];
-			int nj=j+dj[a];
-			if(0<=ni&&ni<N && 0<=nj&&nj<M && map[ni][nj]==1 && !v[ni][nj]) {
-				v[ni][nj]=true;
-				dfs(ni,nj);
-			}
-		}
-	}
-	
-	public static void main(String[] args) throws Exception {
-		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st=null;
-		StringBuilder sb=new StringBuilder();
-		
-		int T=Integer.parseInt(br.readLine());
-		
-		//테스트 반복
-		for(int t=0; t<T; t++) {
+class Main {
 
-			st=new StringTokenizer(br.readLine()," ");
-			M=Integer.parseInt(st.nextToken()); //가로길이
-			N=Integer.parseInt(st.nextToken()); //세로길이
-			
-			map=new int[N][M];
-			v=new boolean[N][M];
-			
-			int k=Integer.parseInt(st.nextToken()); //배추 개수
-			for (int j=0; j<k; j++) {
-				st=new StringTokenizer(br.readLine()," ");
-				int x=Integer.parseInt(st.nextToken());
-				int y=Integer.parseInt(st.nextToken());
-				
-				map[y][x]=1;
-			}
-			
-			// map에 대해서 전체 순회
-			for(int i=0; i<N; i++) { 
-				for(int j=0; j<M; j++) {
-					if(map[i][j]==1 && !v[i][j]) {
-						dfs(i,j);
-						Cnt++;
-					}
-				}
-			}
-			sb.append(Cnt).append("\n");
-			Cnt=0;
-		}
-		
-		System.out.println(sb.toString());
-	}
+    static int N, M;
+    static int[][] map;
+    static boolean[][] v;
+    static final int[] di = new int[] {-1,0,1,0}; //상우하좌
+    static final int[] dj = new int[] {0,1,0,-1};
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        int T = Integer.parseInt(br.readLine());
+        
+        // test case T회 반복
+        for(int t = 0; t < T; t++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            M = Integer.parseInt(st.nextToken()); // 가로
+            N = Integer.parseInt(st.nextToken()); // 세로
+            int K = Integer.parseInt(st.nextToken()); // 배추 개수
+            
+            // 배추 위치 map에 할당
+            map = new int[N][M];
+            for (int i = 0; i < K; i++) {
+                st = new StringTokenizer(br.readLine());
+                int x = Integer.parseInt(st.nextToken());
+                int y = Integer.parseInt(st.nextToken());
+                map[y][x] = 1;
+            }
+
+            v = new boolean[N][M];
+            
+            // map 순회 및 배추 dfs 영역 cnt
+            int cnt = 0;
+            for(int i = 0; i < N; i++) {
+                for(int j = 0; j < M; j++) {
+                    if (map[i][j]==1 && !v[i][j]) {
+                        cnt++;
+                        dfs(i, j);
+                    }
+                }
+            }
+            sb.append(cnt).append("\n");
+        }
+        System.out.println(sb.toString());
+    }
+
+    // dfs 수행을 위한 메서드
+    static void dfs(int i, int j) {
+        v[i][j] = true;
+        for (int d = 0; d < 4; d++) {
+            int ni = i + di[d];
+            int nj = j + dj[d];
+            if (0<=ni&&ni<N && 0<=nj&&nj<M && !v[ni][nj] && map[ni][nj]==1) {
+                v[ni][nj] = true;
+                dfs(ni,nj);
+            }
+        }
+    }
 }
