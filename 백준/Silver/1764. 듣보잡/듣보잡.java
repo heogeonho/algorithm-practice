@@ -29,9 +29,13 @@ class Main {
         // 사전순 정렬
         Collections.sort(result);
         
-        System.out.println(result.size());
+        StringBuilder sb = new StringBuilder();
+        sb.append(result.size()).append('\n');
         for(String s : result) {
-            System.out.println(s);
+            sb.append(s).append('\n');
         }
+
+        System.out.print(sb);
+        br.close();
     }
 }
