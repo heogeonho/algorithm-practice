@@ -4,7 +4,7 @@
 
 ### 성능 요약
 
-메모리: 62092 KB, 시간: 452 ms
+메모리: 59728 KB, 시간: 416 ms
 
 ### 분류
 
@@ -12,7 +12,7 @@
 
 ### 제출 일자
 
-2025년 3월 3일 22:19:43
+2025년 4월 29일 21:42:26
 
 ### 문제 설명
 
@@ -50,7 +50,7 @@
 
 <p>이다솜 : 네. 야호!!</p>
 
-<p>'<img alt="" src="https://www.acmicpc.net/upload/201004/p3.PNG" style="height:181px; width:274px"></p>
+<p>'<img alt="" src="" style="height:181px; width:274px"></p>
 
 <p>오영식 : 어? 오박사님 얘는 누구인가요?</p>
 
@@ -110,9 +110,9 @@
 
 <p><img alt="" src="https://www.acmicpc.net/upload/201004/pf.PNG" style="height:183px; width:274px"></p>
 
-<p><img alt="" src="https://www.acmicpc.net/upload/201004/pg.PNG" style="height:181px; width:274px"></p>
+<p><img alt="" src="" style="height:181px; width:274px"></p>
 
-<p><img alt="" src="https://www.acmicpc.net/upload/201004/ph.PNG" style="height:184px; width:274px"></p>
+<p><img alt="" src="" style="height:184px; width:274px"></p>
 
 <p><img alt="" src="https://www.acmicpc.net/upload/201004/pi.PNG" style="height:184px; width:274px"></p>
 
