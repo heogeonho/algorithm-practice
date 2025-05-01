@@ -1,28 +1,28 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
-        
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
+        HashMap<String, String> findPW = new HashMap<>();
+        StringBuilder sb = new StringBuilder();
         
-        Map<String, String> pHash = new HashMap<>();
-        
-        for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(br.readLine());
-            String site = st.nextToken();
-            String password = st.nextToken();
-            pHash.put(site, password);
+        // 입력 값 Map 에 삽입
+        while (N-- > 0) {
+            st = new StringTokenizer(br.readLine(), " ");
+            String domain = st.nextToken();
+            String pw = st.nextToken();
+            findPW.put(domain, pw);
         }
 
-        for (int i = 0; i < M; i++) {
-            String site = br.readLine();
-            sb.append(pHash.get(site)).append("\n");
+        while (M-- > 0) {
+            String input = br.readLine();
+            sb.append(findPW.get(input)).append("\n");
         }
-        System.out.print(sb);
+        System.out.println(sb);
+
     }
 }
