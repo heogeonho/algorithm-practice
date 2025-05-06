@@ -7,25 +7,26 @@ class Main {
         1. X가 3으로 나누어 떨어지면, 3으로 나눈다.
         2. X가 2로 나누어 떨어지면, 2로 나눈다.
         3. 1을 뺀다.
-
-        2   1
-        3   1
-        4   2
-        5   3
-        6   2
-        7   3
-        8   3
-        9   2
-        10  3
-         */
-
+        바텀업 방식으로 최소값 찾아 넣기가 제일 좋아보인다.
+        */
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
         int[] dp = new int[N+1];
-        if(N==1) System.out.println(0);
-        else if (N<4) {
-            System.out.println(1);
+        dp[0] = dp[1] = 0;
+
+        // 바텀업 방식으로 3가지 방안 비교 및 삽입
+        for (int i = 2; i <= N; i++) {
+            int minValue = dp[i-1]+1;
+            if(i%2==0) minValue = Math.min(minValue, dp[i/2]+1);
+            if(i%3==0) minValue = Math.min(minValue, dp[i/3]+1);
+            dp[i] = minValue;
         }
+        System.out.println(dp[N]);
+        
+    }
+}
+        /*
+        <개선 전 풀이>
         else if (N>=4) {
             dp[2] = 1;
             dp[3] = 1;
@@ -40,5 +41,4 @@ class Main {
             }
             System.out.println(dp[N]);
         }
-    }
-}
+         */
