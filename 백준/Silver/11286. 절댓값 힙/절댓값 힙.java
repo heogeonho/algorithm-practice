@@ -1,31 +1,29 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
-	public static void main(String[] args) throws Exception{
-		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb=new StringBuilder();
-        
-		// 문제의 조건에 맞게 우선순위 큐 생성
-		PriorityQueue<Integer> pq=new PriorityQueue<>((o1, o2)->{
-			int res=Math.abs(o1)-Math.abs(o2);
-			if(res!=0)	return res;
-			else return Integer.compare(o1, o2);
-		});
-		
-		int N=Integer.parseInt(br.readLine());
-		
-        // 입력된 값에 따라 우선순위 큐에 삽입 추출 진행
-		for(int i=0; i<N; i++) {
-			int oper=Integer.parseInt(br.readLine());
-			if(oper!=0) {
-				pq.offer(oper);
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int N = Integer.parseInt(br.readLine());
+		PriorityQueue<Integer> pq = new PriorityQueue<>((o1, o2) -> {
+			if (Math.abs(o1) != Math.abs(o2)) {
+				return Math.abs(o1) - Math.abs(o2); // 절댓값이 작은순
 			} else {
-				if(pq.peek()!=null)	sb.append(pq.poll()).append("\n");
-				else sb.append(0).append("\n");
+				return o1 - o2; // 절댓값 같으면 작은순
+			}
+		});
+		StringBuilder sb = new StringBuilder();
+		
+		for(int i = 0; i < N; i++) {
+			int x = Integer.parseInt(br.readLine());
+			if(x == 0) {
+				if(pq.isEmpty()) sb.append("0").append("\n");
+				else sb.append(pq.poll()).append("\n");
+			}else {
+				pq.offer(x);
 			}
 		}
-		System.out.println(sb.toString());
-		br.close();
+		System.out.println(sb);
 	}
 }
