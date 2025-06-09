@@ -1,75 +1,42 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
+
+// TreeMap 활용하기
 
 public class Main {
-	
-	// 실제 값들 현황을 담는 맵
-	static HashMap<Integer,Integer> map=new HashMap<>();
-	
-	public static void main(String[] args) throws Exception {
-		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st=null;
-		StringBuilder sb=new StringBuilder();
-		
-		int T=Integer.parseInt(br.readLine());
-		
-		//테스트 반복
-		for(int i=0; i<T; i++) {
-			int k=Integer.parseInt(br.readLine());
-			PriorityQueue<Integer> maxPQ=new PriorityQueue<>(Collections.reverseOrder());
-			PriorityQueue<Integer> minPQ=new PriorityQueue<>();
-			
-			//입력 반복
-			for(int j=0; j<k; j++) {
-				st=new StringTokenizer(br.readLine()," ");
-				String oper=st.nextToken();
-				
-				// 입력 I 처리 (두 큐에 삽입 & 맵에 삽입)
-				if(oper.equals("I")) {
-					int num=Integer.parseInt(st.nextToken());
-					maxPQ.offer(num);
-					minPQ.offer(num);
-					map.put(num, map.getOrDefault(num, 0) + 1);	
-				} 
-				// 입력 D 처리
-				else  {
-					int type=Integer.parseInt(st.nextToken());
-					// 맵에 값 없으면 비어있기 때문에 다음 턴으로 넘기기
-					if(map.size()==0) continue;
-					// 각 타입에 따라 유효 값을 삭제해야 함
-					if(type==-1) {
-						removeNum(minPQ);
-					} else if(type==1) {
-						removeNum(maxPQ);
-					}
-				}
-			}
-			
-			if(map.size()==0) {
-				sb.append("EMPTY\n");
-			} else {
-				int res=removeNum(maxPQ);
-				sb.append(res).append(" ");
-				if(map.size()!=0) res=removeNum(minPQ);
-				sb.append(res).append("\n");
-			}
-			map.clear();
-		}
-		System.out.println(sb.toString());
-	}
-	
-	static int removeNum(PriorityQueue<Integer> pq) {
-		int value=0;
-		while(true) {
-			value=pq.poll();
-			int cnt=map.getOrDefault(value, 0);
-			if(cnt==0) continue;
-			if(cnt==1) map.remove(value);
-			else {
-				map.put(value, cnt-1);
-			}
-			break;
-		}
-		return value;
-	}
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int T = Integer.parseInt(br.readLine());
+
+        while (T-- > 0) {
+            int k = Integer.parseInt(br.readLine());
+            TreeMap<Integer, Integer> map = new TreeMap<>();
+
+            for (int i = 0; i < k; i++) {
+                String[] input = br.readLine().split(" ");
+                char command = input[0].charAt(0);
+                int num = Integer.parseInt(input[1]);
+
+                if (command == 'I') {
+                    // 이미 존재하면 개수 증가
+                    map.put(num, map.getOrDefault(num, 0) + 1);
+                } else {
+                    if (map.isEmpty()) continue;
+
+                    int key = (num == 1) ? map.lastKey() : map.firstKey(); // 최대 최소값 선택
+                    int count = map.get(key);
+
+                    if (count == 1) map.remove(key); // 개수 1이면 제거
+                    else map.put(key, count - 1);    // 아니면 개수만 감소
+                }
+            }
+
+            // 출력 map이 비었으면 EMPTY 아니면 최대값 최소값
+            if (map.isEmpty()) {
+                System.out.println("EMPTY");
+            } else {
+                System.out.println(map.lastKey() + " " + map.firstKey());
+            }
+        }
+    }
 }
