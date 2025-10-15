@@ -16,27 +16,32 @@ class Main {
             sushi[i] = Integer.parseInt(br.readLine());
         }
 
-        int start = 0;
-        int end = start+k-1;
-        int max = Integer.MIN_VALUE;
         Map<Integer,Integer> eat = new HashMap<>();
         eat.put(c, 1);
-        for(int i = start; i <= end; i++) eat.put(sushi[i], eat.getOrDefault(sushi[i], 0)+1);
-        // System.out.println(eat);
 
-        end++;
-        while (start < N) {
-            // System.out.println("sushi["+start+"]"+sushi[start]);
-            // System.out.println("sushi["+end%N+"]"+sushi[end%N]);
-            if(sushi[start]!=c && eat.get(sushi[start])==1) eat.remove(sushi[start]);
-            else if(eat.get(sushi[start])!=1) eat.put(sushi[start], eat.get(sushi[start])-1);
-            eat.put(sushi[end%N], eat.getOrDefault(sushi[end%N], 0)+1);
-            // System.out.println(eat);
-            max = Integer.max(max, eat.size());
-            start++;
-            end++;
+        // 초기 윈도우
+        for (int i = 0; i < k; i++) {
+            int s = sushi[i];
+            eat.put(s, eat.getOrDefault(s, 0) + 1);
         }
 
+        int max = eat.size();
+
+        // 슬라이딩
+        int start = 0, end = k;
+        for (int i = 0; i < N - 1; i++) { // N번 돌려도 됨
+            int out = sushi[start++];
+            int cnt = eat.get(out); // 한 번만 get
+            if (out != c && cnt == 1) eat.remove(out);
+            else eat.put(out, cnt - 1);
+
+            int in = sushi[end % N];
+            eat.put(in, eat.getOrDefault(in, 0) + 1);
+            end++;
+
+            int sz = eat.size();
+            if (sz > max) max = sz;
+        }
         System.out.println(max);
     }
 }
