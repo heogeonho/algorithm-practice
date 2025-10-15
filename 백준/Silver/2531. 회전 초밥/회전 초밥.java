@@ -1,47 +1,45 @@
 import java.io.*;
 import java.util.*;
 
-class Main {
-    public static void main(String[] args) throws IOException {
+public class Main {
+    static int N, d, k, c;
+    static int[] sushi;
+    static int[] freq;
+
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        d = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
+        c = Integer.parseInt(st.nextToken());
 
-        int N = Integer.parseInt(st.nextToken());
-        int d = Integer.parseInt(st.nextToken());
-        int k = Integer.parseInt(st.nextToken());
-        int c = Integer.parseInt(st.nextToken());
+        sushi = new int[N];
+        for (int i = 0; i < N; i++) sushi[i] = Integer.parseInt(br.readLine());
 
-        int[] sushi = new int[N];
-        for (int i = 0; i < N; i++) {
-            sushi[i] = Integer.parseInt(br.readLine());
-        }
+        System.out.println(solve());
+    }
 
-        Map<Integer,Integer> eat = new HashMap<>();
-        eat.put(c, 1);
+    static int solve() {
+        freq = new int[d + 1];
+        int distinct = 0;
 
-        // 초기 윈도우
+        // 초기 윈도우 [0, k)
         for (int i = 0; i < k; i++) {
-            int s = sushi[i];
-            eat.put(s, eat.getOrDefault(s, 0) + 1);
+            if (freq[sushi[i]]++ == 0) distinct++;
         }
+        int max = distinct + (freq[c] == 0 ? 1 : 0);
 
-        int max = eat.size();
+        // 슬라이딩 N-1번 (원형이므로 N번 갱신하면 모든 시작점 커버)
+        for (int start = 1; start < N; start++) {
+            int out = sushi[start - 1];
+            if (--freq[out] == 0) distinct--;
+            int in = sushi[(start + k - 1) % N];
+            if (freq[in]++ == 0) distinct++;
 
-        // 슬라이딩
-        int start = 0, end = k;
-        for (int i = 0; i < N - 1; i++) { // N번 돌려도 됨
-            int out = sushi[start++];
-            int cnt = eat.get(out); // 한 번만 get
-            if (out != c && cnt == 1) eat.remove(out);
-            else eat.put(out, cnt - 1);
-
-            int in = sushi[end % N];
-            eat.put(in, eat.getOrDefault(in, 0) + 1);
-            end++;
-
-            int sz = eat.size();
-            if (sz > max) max = sz;
+            int cur = distinct + (freq[c] == 0 ? 1 : 0);
+            if (cur > max) max = cur;
         }
-        System.out.println(max);
+        return max;
     }
 }
