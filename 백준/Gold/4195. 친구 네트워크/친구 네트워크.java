@@ -59,19 +59,8 @@ class Main {
             return size[rootA];
         }
 
-        int parentRoot;
-        int childRoot;
-
-        if (size[rootA] >= size[rootB]) {
-            parentRoot = rootA;
-            childRoot = rootB;
-        } else {
-            parentRoot = rootB;
-            childRoot = rootA;
-        }
-
-        parent[childRoot] = parentRoot;
-        size[parentRoot] += size[childRoot];
-        return size[parentRoot];
+        parent[rootA] = rootB;
+        size[rootB] += size[rootA];
+        return size[rootB];
     }
 }
